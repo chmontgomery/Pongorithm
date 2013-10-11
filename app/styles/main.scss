@@ -25,3 +25,20 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF222222', endColorstr='#FF111111', GradientType=0);
     border-color: #252525;
 }
+
+.player {
+    background-color: #1b1b1b;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
+    background-image: -webkit-linear-gradient(top, #222222, #111111);
+    background-image: linear-gradient(to bottom, #222222, #111111);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF222222', endColorstr='#FF111111', GradientType=0);
+    border-color: #252525;
+    border-radius: 4px;
+    padding: 25px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    .player-place {
+        margin-right: 10px;
+    }
+}

@@ -7,7 +7,7 @@ angular.module('PongorithmApp', ['PongorithmApp.directives'])
         templateUrl: 'views/rankings.html',
         controller: 'RankingsCtrl'
       })
-      .when('/addPlayer', {
+      .when('/addPlayers', {
         templateUrl: 'views/addPlayers.html',
         controller: 'AddPlayerCtrl'
       })

@@ -1,1 +1,8 @@
-TODO display player rankings
+<div ng-repeat="player in allPlayers | orderBy:'rank' | reverse">
+	<div class="player">
+		<div class="player-place pull-left">{{ $index + 1 }}.</div>
+		<div class="pull-left">{{ player.name }}</div>
+		<div class="pull-right">{{ player.rank }}</div>
+		<div style="clear:both;"></div>
+	</div>
+</div>
