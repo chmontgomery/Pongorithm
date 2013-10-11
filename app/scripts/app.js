@@ -1,13 +1,21 @@
 'use strict';
 
-angular.module('PongorithmApp', [])
+angular.module('PongorithmApp', ['PongorithmApp.directives'])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+      .when('/rankings', {
+        templateUrl: 'views/rankings.html',
+        controller: 'RankingsCtrl'
+      })
+      .when('/addPlayer', {
+        templateUrl: 'views/addPlayers.html',
+        controller: 'AddPlayerCtrl'
+      })
+      .when('/addScore', {
+        templateUrl: 'views/addScore.html',
+        controller: 'AddScoreCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/rankings'
       });
   });
