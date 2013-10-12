@@ -1,1 +1,8 @@
-TODO add score form
+<score-slider player-score="playerOneScore"
+                all-players="allPlayers"></score-slider>
+<score-slider player-score="playerTwoScore"
+                all-players="allPlayers"></score-slider>
+<div class="button-group">
+    <button ng-click="cancel()" class="btn pull-right">Cancel</button>
+    <button ng-click="saveScore()" class="btn btn-primary pull-right">Submit</button>
+</div>

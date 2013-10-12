@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('PongorithmApp', ['PongorithmApp.directives'])
+angular.module('PongorithmApp', ['PongorithmApp.directives.navbar', 'PongorithmApp.directives.addScore'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/rankings', {
@@ -9,7 +9,7 @@ angular.module('PongorithmApp', ['PongorithmApp.directives'])
       })
       .when('/addPlayers', {
         templateUrl: 'views/addPlayers.html',
-        controller: 'AddPlayerCtrl'
+        controller: 'AddPlayersCtrl'
       })
       .when('/addScore', {
         templateUrl: 'views/addScore.html',

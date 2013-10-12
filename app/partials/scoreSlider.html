@@ -1,0 +1,17 @@
+<div class="score-slider-group">
+    <div class="player-score-list">
+        <span ng-repeat="player in allPlayers | orderBy:'name'">
+            <button ng-click="selectPlayer(player.id)"
+                class="btn btn-info"
+                ng-class="{disabled: isDim(player.id)}">{{ player.name }}</button>
+        </span>
+    </div>
+    <div class="player-score-header">
+        <div class="player-score">{{ playerScore }}</div>
+        <div class="auto-button-group">
+            <button ng-click="autoIncrement(11)" class="btn">11</button>
+            <button ng-click="autoIncrement(21)" class="btn">21</button>
+        </div>
+    </div>
+    <div class="score-slider"></div>
+</div>

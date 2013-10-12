@@ -1,1 +1,9 @@
-TODO add players form
+Add new players (separate by new lines):
+<div class="new-players-box">
+	<textarea ng-model="newPlayers"
+	placeholder='Phil "The real cream cheese" Schept'></textarea>
+</div>
+<div class="button-group">
+	<button ng-click="saveNewPlayers()" class="btn btn-primary">Add Players</button>
+	<button ng-click="cancel()" class="btn">Cancel</button>
+</div>

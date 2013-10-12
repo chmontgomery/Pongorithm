@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-sass/bootstrap-2.3.2.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/ui-darkness/jquery-ui.css">
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
@@ -42,7 +43,9 @@
     </script>
 
     <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
 
         <!-- build:js scripts/plugins.js -->
         <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
@@ -68,12 +71,14 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/AddPlayerCtrl.js"></script>
+        <script src="scripts/controllers/AddPlayersCtrl.js"></script>
         <script src="scripts/controllers/RankingsCtrl.js"></script>
         <script src="scripts/controllers/AddScoreCtrl.js"></script>
         <script src="scripts/directives/navbarDirective.js"></script>
         <script src="scripts/services/PlayerService.js"></script>
+        <script src="scripts/services/ScoreService.js"></script>
         <script src="scripts/filters/reverseFilter.js"></script>
+        <script src="scripts/directives/scoreSlider.js"></script>
         <!-- endbuild -->
 </body>
 </html>

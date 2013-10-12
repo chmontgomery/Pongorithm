@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('PongorithmApp.directives', [])
+angular.module('PongorithmApp.directives.navbar', [])
   .directive('navbar', function() {
         return {
             restrict: "E",
