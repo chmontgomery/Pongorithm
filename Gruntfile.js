@@ -15,17 +15,6 @@ module.exports = function (grunt) {
                 tasks: ['sass']
             }
         },
-        autoprefixer: {
-            options: ['last 1 version'],
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '.tmp/styles/',
-                    src: '{,*/}*.css',
-                    dest: '.tmp/styles/'
-                }]
-            }
-        },
         clean: {
             dist: {
                 files: [{
@@ -41,7 +30,24 @@ module.exports = function (grunt) {
         },
         jshint: {
             options: {
-                jshintrc: '.jshintrc'
+                curly: true,
+                eqeqeq: true,
+                immed: true,
+                latedef: true,
+                newcap: true,
+                noarg: true,
+                sub: true,
+                undef: true,
+                boss: true,
+                eqnull: true,
+                unused: false,
+                browser: true,
+                strict: true,
+                jquery: true,
+                globals: {
+                    angular:true,
+                    console: true
+                }
             },
             all: [
                 'Gruntfile.js',
@@ -66,30 +72,18 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', [
-        'clean:server',
-        'concurrent:test',
-        'autoprefixer',
-        'connect:test',
+        //'clean:server',
+        'jshint',
         'karma'
     ]);
 
     grunt.registerTask('build', [
-        'clean:dist',
-        'useminPrepare',
-        'concurrent:dist',
-        'autoprefixer',
-        'concat',
+        //'clean:dist',
         'copy:dist',
-        'cdnify',
-        'ngmin',
-        'cssmin',
-        'uglify',
-        'rev',
-        'usemin'
+        'uglify'
     ]);
 
     grunt.registerTask('default', [
-        'jshint',
         'test',
         'build'
     ]);

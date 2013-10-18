@@ -6,15 +6,13 @@ exports.init = function(sio, ssocket) {
     socket = ssocket;
     socket.emit('connected', { message: "You are connected!" });
 
-    // Player Events
     socket.on('getAllPlayers', getAllPlayers);
     socket.on('savePlayers', savePlayers);
     socket.on('saveScore', saveScore);
 }
 
-function getAllPlayers() {
-    console.log('getAllPlayers called!');
-    this.emit('allPlayers', { players: [
+function getAllPlayersFromDB() {
+    return [
         {
             id: 1,
             name: 'Monty',
@@ -35,12 +33,18 @@ function getAllPlayers() {
             name: 'The Truth',
             rank: 81
         }
-    ]});
+    ];
+}
+
+function getAllPlayers() {
+    console.log('getAllPlayers called!');
+    this.emit('allPlayers', { players: getAllPlayersFromDB() });
 }
 
 function savePlayers(data) {
-    console.log('savePlayers called!');
-    this.emit('playersSaved', { message: "successfully saved new players" });
+    console.log('savePlayers called!', data);
+    // TODO
+    this.emit('playersSaved', { message: "successfully saved new players", players: getAllPlayersFromDB() });
 }
 
 function saveScore() {
