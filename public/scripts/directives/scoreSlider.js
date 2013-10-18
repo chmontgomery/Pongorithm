@@ -7,18 +7,18 @@ angular.module('PongorithmApp.directives.addScore', [])
     replace: true,
     scope: {
         playerScore: '=',
+        playerId: '=',
         allPlayers: '='
     },
     controller: function($scope) {
         $scope.autoIncrement = function(num) {
             $scope.playerScore = num;
         };
-        $scope.selectedPlayerId = null;
         $scope.selectPlayer = function(playerId) {
-            $scope.selectedPlayerId = playerId;
+            $scope.playerId = playerId;
         };
         $scope.isDim = function(playerId) {
-            return $scope.selectedPlayerId !== null && playerId !== $scope.selectedPlayerId;
+            return $scope.playerId !== null && playerId !== $scope.playerId;
         };
     },
     templateUrl: 'partials/scoreSlider.html',

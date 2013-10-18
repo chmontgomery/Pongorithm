@@ -9,7 +9,9 @@ angular.module('PongorithmApp')
             var promise = PlayerService.savePlayers($scope.newPlayers);
 
             promise.then(function(players) {
-                $scope.allPlayers = players;
+                $location.path('rankings');
+            }, function(reason) {
+                // TODO show error
             });
         };
         $scope.cancel = function() {

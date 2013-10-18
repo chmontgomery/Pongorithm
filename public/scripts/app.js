@@ -32,4 +32,8 @@
         console.log(data.message);
     });
 
+    socketService.socket.on('newScore', function(data) {
+        console.log(data.message);
+    });
+
 })();

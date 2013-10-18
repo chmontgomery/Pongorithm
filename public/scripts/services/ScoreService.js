@@ -1,19 +1,15 @@
 'use strict';
 
 angular.module('PongorithmApp')
-  .factory('ScoreService', function ($q) {
+  .factory('ScoreService', function ($q, $http) {
 
 
-    var saveScore = function(scope) {
+    var saveScore = function(playerOne, playerTwo) {
         var deferred = $q.defer();
 
-        // TODO service call
-        setTimeout(function() {
-            scope.$apply(function() {
-
-                deferred.resolve();
-            });
-        }, 200);
+        $http.post('/score', { scores: { playerOne: playerOne, playerTwo: playerTwo } }).success(function() {
+            deferred.resolve();
+        });
 
         return deferred.promise;
     };

@@ -1,32 +1,23 @@
 'use strict';
 
 angular.module('PongorithmApp')
-    .factory('PlayerService', function ($q, $http, ModalService, socketService, UtilService) {
-
-        var deferredGet,
-            deferredSave;
-
-        socketService.socket.on('allPlayers', function(data) {
-            console.log(data.players);
-            deferredGet.resolve(data.players);
-        });
+    .factory('PlayerService', function ($q, $http, UtilService) {
 
         var getAllPlayers = function() {
-            deferredGet = $q.defer();
-            socketService.socket.emit('getAllPlayers');
-            return deferredGet.promise;
-        };
+            var deferred = $q.defer();
 
-        socketService.socket.on('playersSaved', function(data) {
-            console.log(data.players);
-            deferredSave.resolve(data.players);
-        });
+            $http.get('/players').success(function(data) {
+                deferred.resolve(data);
+            });
+
+            return deferred.promise;
+        };
 
         /**
          * @param text new line delimited list of new players
          */
         var savePlayers = function(text) {
-            deferredSave = $q.defer();
+            var deferred = $q.defer();
 
             var players = text.split('\n');
 
@@ -40,8 +31,11 @@ angular.module('PongorithmApp')
                 });
             });
 
-            socketService.socket.emit('savePlayers', players);
-            return deferredSave.promise;
+            $http.post('/players', { players: playersJSON }).success(function() {
+                deferred.resolve();
+            });
+
+            return deferred.promise;
         };
 
         return {
