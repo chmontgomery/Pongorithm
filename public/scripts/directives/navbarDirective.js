@@ -1,15 +1,21 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('PongorithmApp.directives.navbar', [])
-  .directive('navbar', function() {
+    var module = angular.module('PongorithmApp.directives', []);
+
+    module.controller('navbarCtrl', ['$scope', '$location',
+        function($scope, $location) {
+            $scope.changeView = function(view){
+                $location.path(view);
+            };
+        }]);
+
+    module.directive('navbar', function() {
         return {
             restrict: "E",
             replace: true,
-            controller: function($scope, $location) {
-                $scope.changeView = function(view){
-                    $location.path(view); // path not hash
-                };
-            },
+            controller: 'navbarCtrl',
             templateUrl: 'partials/navbar.html'
         };
     });
+})();

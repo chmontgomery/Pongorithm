@@ -1,20 +1,20 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('PongorithmApp')
-  .factory('ScoreService', function ($q, $http) {
+    angular.module('PongorithmApp', [])
+        .factory('ScoreService', ['$q', '$http', function ($q, $http) {
+            var saveScore = function(playerOne, playerTwo) {
+                var deferred = $q.defer();
 
+                $http.post('/score', { scores: { playerOne: playerOne, playerTwo: playerTwo } }).success(function() {
+                    deferred.resolve();
+                });
 
-    var saveScore = function(playerOne, playerTwo) {
-        var deferred = $q.defer();
+                return deferred.promise;
+            };
 
-        $http.post('/score', { scores: { playerOne: playerOne, playerTwo: playerTwo } }).success(function() {
-            deferred.resolve();
-        });
-
-        return deferred.promise;
-    };
-
-    return {
-        saveScore: saveScore
-    };
-  });
+            return {
+                saveScore: saveScore
+            };
+        }]);
+})();

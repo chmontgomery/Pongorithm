@@ -1,10 +1,16 @@
-'use strict';
-
 module.exports = function (grunt) {
-    require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-karma');
 
     grunt.initConfig({
+        src: {
+            js: ['public/scripts/**/*.js'/*, 'app.js'*/]
+        },
         config: {
             app: 'public',
             dist: 'dist'
@@ -29,6 +35,7 @@ module.exports = function (grunt) {
             server: '.tmp'
         },
         jshint: {
+            files:['<%= src.js %>'],
             options: {
                 curly: true,
                 eqeqeq: true,
