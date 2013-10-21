@@ -1,6 +1,9 @@
 (function() {
     'use strict';
-    angular.module('PongorithmApp', ['lib.lodash'])
+    angular.module('PongorithmApp.services.player', [
+            'lib.lodash',
+            'PongorithmApp.services.util'
+        ])
         .factory('PlayerService', [
             '$q', '$http', '_', 'UtilService',
             function ($q, $http, _, UtilService) {

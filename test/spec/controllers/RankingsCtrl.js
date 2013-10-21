@@ -3,7 +3,7 @@
 describe('Controller: RankingsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('PongorithmApp'));
+  beforeEach(module('PongorithmApp.controllers'));
 
   var $scope,
     $controller,

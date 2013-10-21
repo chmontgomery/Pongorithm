@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('common.services', [])
+    angular.module('PongorithmApp.services.modal', [])
         .factory('ModalService', function () {
             var error = function(title, message) {
                 title = title || "Ugh";

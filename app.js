@@ -57,7 +57,7 @@ app.configure(function() {
 
         console.log('scores:', req.body.scores);
 
-        socket.emit('newScore', { message: "New score added!" });
+        //socket.emit('newScore', { message: "New score added!" });
 
         res.json(true);
     });

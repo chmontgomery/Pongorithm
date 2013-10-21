@@ -3,11 +3,11 @@
 
     var app = angular.module('PongorithmApp', [
         'PongorithmApp.directives',
-        'common.filters',
-        'lib.io'
+        'PongorithmApp.controllers',
+        'PongorithmApp.filters'
     ]);
 
-    app.config(['io', '$routeProvider', function (io, $routeProvider) {
+    app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/rankings', {
                 templateUrl: 'views/rankings.html',
@@ -25,7 +25,7 @@
                 redirectTo: '/rankings'
             });
 
-        var socketService = {
+        /*var socketService = {
             socket: io.connect()
         };
 
@@ -35,6 +35,6 @@
 
         socketService.socket.on('newScore', function(data) {
             console.log(data.message);
-        });
+        });*/
     }]);
 })();

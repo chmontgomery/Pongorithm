@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('common.filters', [])
+    angular.module('PongorithmApp.filters', [])
         .filter('reverse', function() {
             return function(items) {
                 if (items && items.length > 1) {

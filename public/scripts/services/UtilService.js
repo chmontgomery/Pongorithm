@@ -1,8 +1,9 @@
 (function() {
     'use strict';
 
-    angular.module('PongorithmApp', [])
-        .factory('UtilService', function () {
+    var module = angular.module('PongorithmApp.services.util', []);
+
+    module.factory('UtilService', function () {
 
             var s4 = function() {
                 return Math.floor((1 + Math.random()) * 0x10000)

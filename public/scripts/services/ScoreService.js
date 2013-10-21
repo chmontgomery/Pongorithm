@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('PongorithmApp', [])
+    angular.module('PongorithmApp.services.score', [])
         .factory('ScoreService', ['$q', '$http', function ($q, $http) {
             var saveScore = function(playerOne, playerTwo) {
                 var deferred = $q.defer();
