@@ -17,34 +17,34 @@
         }]);
 
     module.controller('AddScoreCtrl', ['$scope', '$location', 'PlayerService', 'ScoreService', 'ModalService',
-            function ($scope, $location, PlayerService, ScoreService, ModalService) {
-                $scope.playerOneScore = 0;
-                $scope.playerTwoScore = 0;
-                $scope.playerOneId = null;
-                $scope.playerTwoId = null;
-                var promise = PlayerService.getAllPlayers();
+        function ($scope, $location, PlayerService, ScoreService, ModalService) {
+            $scope.playerOneScore = 0;
+            $scope.playerTwoScore = 0;
+            $scope.playerOneId = null;
+            $scope.playerTwoId = null;
+            var promise = PlayerService.getAllPlayers();
 
-                promise.then(function(players) {
-                    $scope.allPlayers = players;
-                }, ModalService.error);
+            promise.then(function(players) {
+                $scope.allPlayers = players;
+            }, ModalService.error);
 
-                $scope.saveScore = function() {
-                    var scorePromise = ScoreService.saveScore({
-                        id: $scope.playerOneId,
-                        score: $scope.playerOneScore
-                    },{
-                        id: $scope.playerTwoId,
-                        score: $scope.playerTwoScore
-                    });
+            $scope.saveScore = function() {
+                var scorePromise = ScoreService.saveScore({
+                    id: $scope.playerOneId,
+                    score: $scope.playerOneScore
+                },{
+                    id: $scope.playerTwoId,
+                    score: $scope.playerTwoScore
+                });
 
-                    scorePromise.then(function() {
-                        $location.path('rankings');
-                    }, ModalService.error);
-                };
-                $scope.cancel = function() {
+                scorePromise.then(function() {
                     $location.path('rankings');
-                };
-            }]);
+                }, ModalService.error);
+            };
+            $scope.cancel = function() {
+                $location.path('rankings');
+            };
+        }]);
 
     module.controller('AddPlayersCtrl', ['$scope', '$location', 'PlayerService', 'ModalService',
         function ($scope, $location, PlayerService, ModalService) {

@@ -35,7 +35,7 @@ module.exports = function (grunt) {
             server: '.tmp'
         },
         jshint: {
-            files:['<%= src.js %>'],
+            files:['Gruntfile.js', '<%= src.js %>'],
             options: {
                 curly: true,
                 eqeqeq: true,
@@ -44,22 +44,16 @@ module.exports = function (grunt) {
                 newcap: true,
                 noarg: true,
                 sub: true,
-                undef: true,
                 boss: true,
                 eqnull: true,
                 unused: false,
                 browser: true,
-                strict: true,
                 jquery: true,
                 globals: {
-                    angular:true,
+                    angular: true,
                     console: true
                 }
-            },
-            all: [
-                'Gruntfile.js',
-                '<%= config.app %>/scripts/{,*/}*.js'
-            ]
+            }
         },
         karma: {
             unit: {
@@ -80,8 +74,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         //'clean:server',
-        'jshint',
-        'karma'
+        'karma',
+        'jshint'
     ]);
 
     grunt.registerTask('build', [
