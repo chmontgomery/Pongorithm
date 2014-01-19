@@ -2,6 +2,7 @@
     'use strict';
 
     var app = angular.module('PongorithmApp', [
+        'ngRoute',
         'PongorithmApp.directives',
         'PongorithmApp.controllers',
         'PongorithmApp.filters'
