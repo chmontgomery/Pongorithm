@@ -28,7 +28,7 @@
     "dojo": false,
 
     // Custom predefined globals.
-    "predef": [],
+    "predef": ["angular", "window"],
 
     // Development
 
@@ -136,11 +136,11 @@
     // Whether trailing whitespace rules apply.
     "trailing": false,
     // Specify indentation.
-    "indent": 2,
+    "indent": false,
     // Whether strict whitespace rules apply.
     "white": false,
     // Quote formatting
-    "quotmark": true,
+    "quotmark": false,
 
     // Complexity
 

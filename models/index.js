@@ -2,7 +2,7 @@
 
 
 module.exports = function IndexModel() {
-  return {
-    name: 'Pongorithm'
-  };
+    return {
+        name: 'Pongorithm'
+    };
 };
