@@ -1,7 +1,6 @@
 node_modules
-dist
 .tmp
-.sass-cache
-public/bower_components
+public/components
 .idea
 npm-debug.log
+.build

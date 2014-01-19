@@ -1,4 +1,3 @@
-Pongorithm
-==========
+# Pongorithm
 
-app to track ping pong ranking
+"app to track ping pong ranking"
