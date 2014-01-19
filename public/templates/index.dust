@@ -1,12 +1,10 @@
 {>"layouts/master" /}
-
+{<title}
+Pongorithm
+{/title}
 {<body}
 <div ng-app="PongorithmApp">
-
-<navbar></navbar>
-
-
-<div class="container" ng-view=""></div>
+    <navbar></navbar>
+    <div class="container" ng-view=""></div>
 </div>
-
 {/body}
