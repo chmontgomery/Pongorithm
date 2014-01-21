@@ -2,7 +2,7 @@ package services
 
 import "models"
 
-func NewRanking(p1 models.PlayerScoreTransfer, p2 models.PlayerScoreTransfer) []models.Player {
+func NewRanking(playerScores models.AllPlayerScores) []models.Player {
 	// TODO logic
-	return []models.Player{p1.PlayerObj,p2.PlayerObj}
+	return []models.Player{playerScores.PlayerScores[0].PlayerObj,playerScores.PlayerScores[1].PlayerObj}
 }

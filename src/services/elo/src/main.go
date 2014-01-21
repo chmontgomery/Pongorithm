@@ -9,16 +9,31 @@ import (
 )
 
 func handler(res http.ResponseWriter, req *http.Request) {
-    players := services.NewRanking(models.PlayerScoreTransfer{models.Player{1,99},21},models.PlayerScoreTransfer{models.Player{2,10},11})
 
-    data, err := json.Marshal(players)
-    if err != nil {
-      fmt.Println("error:", err)
-    }
+	res.Header().Set("Access-Control-Allow-Origin", "*") // allow cross domain AJAX requests
 
-    res.Header().Set("Access-Control-Allow-Origin", "*") // allow cross domain AJAX requests
-    res.Header().Set("Content-Type", "application/json; charset=utf-8")
-    res.Write(data)
+	p := make([]byte, req.ContentLength)
+	_, err := req.Body.Read(p)
+
+	if err == nil {
+		var playerScores models.AllPlayerScores
+		errUnmarshal := json.Unmarshal(p, &playerScores)
+		if errUnmarshal == nil {
+			players := services.NewRanking(playerScores)
+			data, err := json.Marshal(players)
+			if err == nil {
+				fmt.Println("Successfully calculated new rankings for Players.")
+				res.Header().Set("Content-Type", "application/json; charset=utf-8")
+				res.Write(data)
+			} else {
+				fmt.Println("error:", err)
+			}
+		} else {
+			fmt.Println("Unable to unmarshall the JSON request:", errUnmarshal);
+		}
+	} else {
+		fmt.Println("Unable to read request body:", err);
+	}
 }
 
 func main() {

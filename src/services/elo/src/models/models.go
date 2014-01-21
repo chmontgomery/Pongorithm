@@ -5,7 +5,11 @@ type Player struct {
 	Rank float64
 }
 
-type PlayerScoreTransfer struct {
+type PlayerScore struct {
 	PlayerObj Player
 	Score int
+}
+
+type AllPlayerScores struct {
+	PlayerScores []PlayerScore
 }
