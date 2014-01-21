@@ -10,7 +10,7 @@
       "csp": false,
       "p3p": false,
       "xframe": "SAMEORIGIN"
-    }
+    },
 //
 //      "compiler": {
 //          "dust": "templates",
@@ -22,9 +22,9 @@
 //          "secret": "32a580a5710b5b754e838dcf6ea9dd3e4bf55dc6"
 //      },
 //
-//      "static": {
-//          "srcRoot": "path:./public",
-//          "rootPath": "path:./.build"
-//      }
+      "static": {
+          "srcRoot": "path:./src/web-app/public",
+          "rootPath": "path:./.build"
+      }
   }
 }
