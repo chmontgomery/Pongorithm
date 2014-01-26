@@ -1,31 +1,18 @@
 'use strict';
+var mongoose = require('mongoose'),
+    _ = require('lodash'),
+    q = require('q'),
+    Player = require('../../../models/playerModel');
 
 module.exports = function (server) {
 
     server.get('/players', function (req, res) {
-        var players = [
-            {
-                id: 1,
-                name: 'Monty',
-                rank: 100
-            },
-            {
-                id: 2,
-                name: 'Natural Fruit',
-                rank: 120
-            },
-            {
-                id: 3,
-                name: 'The Real Cream Cheese',
-                rank: 131
-            },
-            {
-                id: 4,
-                name: 'The Truth',
-                rank: 81
+        Player.find(function (err, players) {
+            if (err) {
+                console.log(err);
             }
-        ];
-        res.json(players);
+            res.json(players);
+        });
     });
 
     server.post('/players', function (req, res) {
@@ -34,9 +21,30 @@ module.exports = function (server) {
             return res.send('Error 400: Post syntax incorrect.');
         }
 
-        console.log('saving new players:', req.body.players);
+        console.log('saving new player(s):', req.body.players);
 
-        res.json(true);
+        var deferreds = [];
+
+        _.forEach(req.body.players, function(player) {
+            var deferred = q.defer();
+            deferreds.push(deferred.promise);
+            var newPlayer = new Player(player);
+            newPlayer.save(function (err) {
+                if (err) {
+                    console.log('FAILED to save player', err);
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve();
+                }
+            });
+        });
+
+        q.all(deferreds)
+            .then(function() {
+                res.json(true);
+            },function(error) {
+                res.json(false);
+            });
     });
 
 };

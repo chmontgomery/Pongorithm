@@ -10,6 +10,10 @@ module.exports = function (server) {
 
         console.log('scores:', req.body.scores);
 
+        // 1. db find players
+        // 2. call go service
+        // 3. update db with result
+
         res.json(true);
     });
 

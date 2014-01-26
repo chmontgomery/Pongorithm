@@ -39,6 +39,10 @@
      "view cache": true,
      "view engine": "js",
      "views": "path:./.build/templates/US/en/"
- }
+ },
+    "databaseConfig": {
+        "host": "localhost",
+        "database": "pongorithm"
+    }
 
 }

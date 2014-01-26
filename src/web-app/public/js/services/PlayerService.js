@@ -1,12 +1,11 @@
 (function() {
     'use strict';
     angular.module('PongorithmApp.services.player', [
-            'lib.lodash',
-            'PongorithmApp.services.util'
+            'lib.lodash'
         ])
         .factory('PlayerService', [
-            '$q', '$http', '_', 'UtilService',
-            function ($q, $http, _, UtilService) {
+            '$q', '$http', '_',
+            function ($q, $http, _) {
 
                 var getAllPlayers = function() {
                     var deferred = $q.defer();
@@ -30,7 +29,6 @@
 
                     _.each(players, function(playerName) {
                         playersJSON.push({
-                            id: UtilService.newGuid(),
                             name: playerName,
                             rank: 100 // default
                         });
