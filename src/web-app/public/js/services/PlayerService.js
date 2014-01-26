@@ -29,8 +29,7 @@
 
                     _.each(players, function(playerName) {
                         playersJSON.push({
-                            name: playerName,
-                            rank: 100 // default
+                            name: playerName
                         });
                     });
 
