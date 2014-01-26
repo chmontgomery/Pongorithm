@@ -1,4 +1,7 @@
 'use strict';
+var _ = require('lodash'),
+    q = require('q'),
+    Player = require('../../../models/playerModel');
 
 module.exports = function (server) {
 
@@ -8,13 +11,45 @@ module.exports = function (server) {
             return res.send('Error 400: Post syntax incorrect.');
         }
 
-        console.log('scores:', req.body.scores);
+        console.log('Saving new scores:', req.body.scores);
 
-        // 1. db find players
-        // 2. call go service
-        // 3. update db with result
+        var playerOneDefer = q.defer();
+        var playerTwoDefer = q.defer();
 
-        res.json(true);
+        Player.findById(req.body.scores.playerOne.id, function (err, player) {
+            if (err) {
+                console.log('FAILED to get player', err);
+                playerOneDefer.reject(err);
+            } else {
+                playerOneDefer.resolve(player);
+            }
+        });
+
+        Player.findById(req.body.scores.playerTwo.id, function (err, player) {
+            if (err) {
+                console.log('FAILED to get player', err);
+                playerTwoDefer.reject(err);
+            } else {
+                playerTwoDefer.resolve(player);
+            }
+        });
+
+        q.allSettled([
+                playerOneDefer.promise,
+                playerTwoDefer.promise
+            ])
+            .spread(function(playerOne, playerTwo) {
+                var newRanksDefer = q.defer();
+                newRanksDefer.resolve();
+                console.log('TODO call go service');
+                return newRanksDefer.promise;
+            },function(error) {
+                // ?
+                res.json(false);
+            }).then(function(result) {
+                console.log('TODO update db with result');
+                res.json(true);
+            });
     });
 
 };

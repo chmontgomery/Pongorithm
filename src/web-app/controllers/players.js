@@ -1,6 +1,5 @@
 'use strict';
-var mongoose = require('mongoose'),
-    _ = require('lodash'),
+var _ = require('lodash'),
     q = require('q'),
     Player = require('../../../models/playerModel');
 
