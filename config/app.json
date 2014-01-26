@@ -3,14 +3,13 @@
 //
 // "port": 8000,
 //
-// "i18n": {
-//     "fallback": "en-US",
-//     "contentPath": "path:./locales"
-// },
-//
-/* "routes": {
-     "routePath": "path:./controllers"
- }*/
+ "i18n": {
+     "fallback": "en-US",
+     "contentPath": "path:./src/web-app/locales"
+ },
+ "routes": {
+     "routePath": "path:./src/web-app/controllers"
+ },
 //
 //  "view engines": {
 //      "js": {
@@ -29,7 +28,7 @@
 //         }
 //     }
 // },
-// "express": {
+ "express": {
 //     "x-powered-by": false,
 //     "trust proxy": false,
 //     "jsonp callback name": null,
@@ -37,9 +36,9 @@
 //     "json spaces": 0,
 //     "case sensitive routing": false,
 //     "strict routing": false,
-//     "view cache": true,
-//     "view engine": "js",
-//     "views": "path:./.build/templates"
-// }
+     "view cache": true,
+     "view engine": "js",
+     "views": "path:./.build/templates/US/en/"
+ }
 
 }

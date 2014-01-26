@@ -3,8 +3,16 @@
 module.exports = function (grunt) {
 
     grunt.initConfig({
+        pong: {
+            webapp: 'src/web-app'
+        },
         jshint: {
-            files: ['controllers/**/*.js', 'lib/**/*.js', 'models/**/*.js', 'public/js/**/*.js'],
+            files: [
+                '<%= pong.webapp %>/controllers/**/*.js',
+                '<%= pong.webapp %>/lib/**/*.js',
+                '<%= pong.webapp %>/models/**/*.js',
+                '<%= pong.webapp %>/public/js/**/*.js'
+            ],
             options: {
                 jshintrc: '.jshintrc'
             }
@@ -16,14 +24,14 @@ module.exports = function (grunt) {
                     paths: ['public/css']
                 },
                 files: {
-                    '.build/css/app.css': 'public/css/app.less'
+                    '.build/css/app.css': '<%= pong.webapp %>/public/css/app.less'
                 }
             }
         },
         makara: {
-            files: ['public/templates/**/*.dust'],
+            files: ['<%= pong.webapp %>/public/templates/**/*.dust'],
             options: {
-                contentPath: ['locales/**/*.properties']
+                contentPath: ['<%= pong.webapp %>/locales/**/*.properties']
             }
         },
         dustjs: {
@@ -56,9 +64,9 @@ module.exports = function (grunt) {
                 ],
                 options: {
                     ignore: [
-                        'public/css/**/*',
-                        'public/js/**/*',
-                        'public/templates/**/*'
+                        '<%= pong.webapp %>/public/css/**/*',
+                        '<%= pong.webapp %>/public/js/**/*',
+                        '<%= pong.webapp %>/public/templates/**/*'
                     ]
                 }
             }
@@ -68,7 +76,7 @@ module.exports = function (grunt) {
             'build': '.build/templates'
         },
         mochacli: {
-            src: ['test/*.js'],
+            src: ['test/web-app/*.js'],
             options: {
                 globals: ['chai'],
                 timeout: 6000,
@@ -85,18 +93,59 @@ module.exports = function (grunt) {
         },
         watch: {
             src: {
-                files: ['public/**/*.js', 'public/**/*.dust', 'public/**/*.html', 'public/**/*.less'],
+                files: [
+                    '<%= pong.webapp %>/public/**/*.js',
+                    '<%= pong.webapp %>/public/**/*.dust',
+                    '<%= pong.webapp %>/public/**/*.html',
+                    '<%= pong.webapp %>/public/**/*.less'
+                ],
                 tasks: ['build'],
                 options: {
                     spawn: false
                 }
             },
-            test: {
-                files: ['test/**/*.js'],
-                tasks: ['test'],
+            testClient: {
+                files: ['test/client/**/*.js'],
+                tasks: ['karma'],
                 options: {
                     spawn: false
                 }
+            },
+            testWebApp: {
+                files: ['test/web-app/**/*.js'],
+                tasks: ['mochacli'],
+                options: {
+                    spawn: false
+                }
+            }
+        },
+        go: {
+            options: {
+                GOPATH: ['src/services/elo']
+            },
+            elo: {
+                output: 'eloService',
+                root: 'src/services/elo/src',
+                run_files: ['main.go']
+            }
+        },
+        execute: {
+            webApp: {
+                src: ['index.js']
+            }
+        },
+        parallel: {
+            servers: {
+                options: {
+                  stream: true
+                },
+                tasks: [{
+                  grunt: true,
+                  args: ['execute:webApp']
+                }, {
+                  grunt: true,
+                  args: ['go:run:elo']
+                }]
             }
         }
     });
@@ -107,5 +156,5 @@ module.exports = function (grunt) {
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
     grunt.registerTask('build', ['jshint', 'less', 'copyto', 'i18n']);
     grunt.registerTask('test', ['jshint', 'mochacli', 'karma']);
-
+    grunt.registerTask('serve', ['parallel:servers']);
 };

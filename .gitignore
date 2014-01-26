@@ -1,6 +1,7 @@
 node_modules
 .tmp
-public/components
+src/web-app/public/components
 .idea
 npm-debug.log
 .build
+src/services/elo/src/eloService

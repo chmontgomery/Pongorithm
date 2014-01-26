@@ -33,6 +33,9 @@
     "grunt-copy-to": "0.0.10",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-karma": "~0.6.2",
-    "load-grunt-tasks": "~0.2.1"
+    "load-grunt-tasks": "~0.2.1",
+    "grunt-go": "0.0.3",
+    "grunt-execute": "~0.1.5",
+    "grunt-parallel": "~0.3.1"
   }
 }
