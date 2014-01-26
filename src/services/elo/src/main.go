@@ -22,7 +22,7 @@ func handler(res http.ResponseWriter, req *http.Request) {
 			players := services.NewRanking(playerScores)
 			data, err := json.Marshal(players)
 			if err == nil {
-				fmt.Println("Successfully calculated new rankings for Players.")
+				fmt.Println("Successfully calculated new rankings for Players:", players)
 				res.Header().Set("Content-Type", "application/json; charset=utf-8")
 				res.Write(data)
 			} else {
