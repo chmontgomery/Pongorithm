@@ -4,7 +4,11 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pong: {
-            webapp: 'src/web-app'
+            webapp: 'src/web-app',
+            elo_service: 'src/services/elo',
+            tests_go: 'test/services/elo/services',
+            tests_server: 'test/web-app/server',
+            tests_client: 'test/web-app/client'
         },
         jshint: {
             files: [
@@ -76,7 +80,7 @@ module.exports = function (grunt) {
             'build': '.build/templates'
         },
         mochacli: {
-            src: ['test/web-app/*Spec.js'],
+            src: ['<%= pong.tests_server %>/**/*.js'],
             options: {
                 globals: ['chai'],
                 timeout: 6000,
@@ -105,32 +109,50 @@ module.exports = function (grunt) {
                 }
             },
             testClient: {
-                files: ['test/client/**/*.js'],
+                files: ['<%= pong.tests_client %>/**/*.js'],
                 tasks: ['karma'],
                 options: {
                     spawn: false
                 }
             },
-            testWebApp: {
-                files: ['test/web-app/**/*.js'],
+            testServer: {
+                files: ['<%= pong.tests_server %>/**/*.js'],
                 tasks: ['mochacli'],
+                options: {
+                    spawn: false
+                }
+            },
+            testGo: {
+                files: [
+                    '<%= pong.tests_go %>/**/*.go',
+                    '<%= pong.elo_service %>/**/*.go'
+                ],
+                tasks: ['shell:goTest'],
                 options: {
                     spawn: false
                 }
             }
         },
-        // build: grunt go:build:elo
-        // run:
-        // src/services/elo/src/eloService
-        // or
-        // grunt go:run:elo
+        /**
+            sample go env:
+                GOPATH="/Users/montgomeryc/Projects/Pongorithm/src/services/elo"
+                GOROOT="/usr/local/go"
+
+            build elo service:
+                grunt go:build:elo
+         
+            run elo service:
+                src/services/elo/src/eloService
+                or
+                grunt go:run:elo
+         */
         go: {
             options: {
-                GOPATH: ['src/services/elo']
+                GOPATH: ['<%= pong.elo_service %>']
             },
             elo: {
                 output: 'eloService',
-                root: 'src/services/elo/src',
+                root: '<%= pong.elo_service %>/src',
                 run_files: ['main.go']
             }
         },
@@ -152,6 +174,18 @@ module.exports = function (grunt) {
                   args: ['go:run:elo']
                 }]
             }
+        },
+        shell: {
+            goTest: {
+                options: {
+                    stdout: true,
+                    execOptions: {
+                        cwd: '<%= pong.tests_go %>'
+                    },
+                    failOnError: true
+                },
+                command: 'go test'
+            }
         }
     });
 
@@ -160,6 +194,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
     grunt.registerTask('build', ['jshint', 'less', 'copyto', 'i18n', 'go:build:elo']);
-    grunt.registerTask('test', ['jshint', 'mochacli', 'karma']);
+    grunt.registerTask('test', ['jshint', 'mochacli', 'karma', 'shell:goTest']);
     grunt.registerTask('serve', ['parallel:servers']);
 };

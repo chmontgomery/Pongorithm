@@ -81,9 +81,9 @@ module.exports = function (server) {
 
                             playerModel.save(function(err) {
                                 if (err) {
-                                    console.log('error', err)
+                                    console.log('error', err);
                                 } else {
-                                    console.log('success')
+                                    console.log('success');
                                 }
                             });
                         }
