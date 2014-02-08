@@ -76,7 +76,7 @@ module.exports = function (grunt) {
             'build': '.build/templates'
         },
         mochacli: {
-            src: ['test/web-app/*.js'],
+            src: ['test/web-app/*Spec.js'],
             options: {
                 globals: ['chai'],
                 timeout: 6000,
@@ -119,6 +119,11 @@ module.exports = function (grunt) {
                 }
             }
         },
+        // build: grunt go:build:elo
+        // run:
+        // src/services/elo/src/eloService
+        // or
+        // grunt go:run:elo
         go: {
             options: {
                 GOPATH: ['src/services/elo']
@@ -154,7 +159,7 @@ module.exports = function (grunt) {
     grunt.loadTasks('./node_modules/makara/tasks/');
 
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
-    grunt.registerTask('build', ['jshint', 'less', 'copyto', 'i18n']);
+    grunt.registerTask('build', ['jshint', 'less', 'copyto', 'i18n', 'go:build:elo']);
     grunt.registerTask('test', ['jshint', 'mochacli', 'karma']);
     grunt.registerTask('serve', ['parallel:servers']);
 };

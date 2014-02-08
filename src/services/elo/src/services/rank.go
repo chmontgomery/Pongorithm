@@ -5,10 +5,10 @@ import "models"
 func NewRanking(playerScores models.AllPlayerScores) []models.Player {
 	// TODO better logic taking current ranking into account
 
-	var player1 = playerScores.PlayerScores[0]
-	var player2 = playerScores.PlayerScores[1]
+	var player1 models.PlayerScore = playerScores.PlayerScores[0]
+	var player2 models.PlayerScore = playerScores.PlayerScores[1]
 
-	var diff = float64(player1.Score - player2.Score)
+	var diff float64 = float64(player1.Score - player2.Score)
 
 	if player1.Score > player2.Score {
 		// player 1 won!
