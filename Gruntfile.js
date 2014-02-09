@@ -140,7 +140,7 @@ module.exports = function (grunt) {
 
             build elo service:
                 grunt go:build:elo
-         
+
             run elo service:
                 src/services/elo/src/eloService
                 or
