@@ -8,7 +8,7 @@ app to track ping pong ranking
     * `npm install`
     * `bower install`
 2. configure your [GOPATH env variable](http://golang.org/doc/code.html#GOPATH)
-        * e.g. `GOPATH="/Users/montgomeryc/Projects/Pongorithm/src/services/elo"`
+    * e.g. `GOPATH="/Users/montgomeryc/Projects/Pongorithm/src/services/elo"`
 3. build project
     * `grunt build`
 4. start web-app and service
