@@ -133,19 +133,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        /**
-            sample go env:
-                GOPATH="/Users/montgomeryc/Projects/Pongorithm/src/services/elo"
-                GOROOT="/usr/local/go"
-
-            build elo service:
-                grunt go:build:elo
-
-            run elo service:
-                src/services/elo/src/eloService
-                or
-                grunt go:run:elo
-         */
         go: {
             options: {
                 GOPATH: ['<%= pong.elo_service %>']
