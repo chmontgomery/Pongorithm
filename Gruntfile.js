@@ -127,7 +127,7 @@ module.exports = function (grunt) {
                     '<%= pong.tests_go %>/**/*.go',
                     '<%= pong.elo_service %>/**/*.go'
                 ],
-                tasks: ['shell:goTest'],
+                tasks: ['go:test:elo'],
                 options: {
                     spawn: false
                 }
@@ -153,7 +153,8 @@ module.exports = function (grunt) {
             elo: {
                 output: 'eloService',
                 root: '<%= pong.elo_service %>/src',
-                run_files: ['main.go']
+                run_files: ['main.go'],
+                pckgs: ['../../../../<%= pong.tests_go %>']
             }
         },
         execute: {
@@ -174,18 +175,6 @@ module.exports = function (grunt) {
                   args: ['go:run:elo']
                 }]
             }
-        },
-        shell: {
-            goTest: {
-                options: {
-                    stdout: true,
-                    execOptions: {
-                        cwd: '<%= pong.tests_go %>'
-                    },
-                    failOnError: true
-                },
-                command: 'go test'
-            }
         }
     });
 
@@ -194,6 +183,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
     grunt.registerTask('build', ['jshint', 'less', 'copyto', 'i18n', 'go:build:elo']);
-    grunt.registerTask('test', ['jshint', 'mochacli', 'karma', 'shell:goTest']);
+    grunt.registerTask('test', ['jshint', 'mochacli', 'karma', 'go:test:elo']);
     grunt.registerTask('serve', ['parallel:servers']);
 };
