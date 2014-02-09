@@ -6,6 +6,7 @@ import (
     "encoding/json"
 	"models"
 	"services"
+	"io/ioutil"
 )
 
 func handler(res http.ResponseWriter, req *http.Request) {
@@ -37,7 +38,22 @@ func handler(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-    fmt.Println("listening at http://localhost:8080/")
+
+	file, errReadFile := ioutil.ReadFile("./config.json")
+	if errReadFile != nil {
+		fmt.Printf("Error reading config.json: %v\n", errReadFile)
+		return
+	}
+
+	var config models.ServiceConfig
+	errUnmarshal := json.Unmarshal(file, &config)
+
+	if errUnmarshal != nil {
+		fmt.Printf("Error unmarshalling config.json: %v\n", errUnmarshal)
+		return
+	}
+
+	fmt.Println("listening at http://" + config.Url)
     http.HandleFunc("/", handler)
-    http.ListenAndServe(":8080", nil)
+    http.ListenAndServe(config.Url, nil)
 }

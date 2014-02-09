@@ -14,7 +14,7 @@ module.exports = function(config) {
       'src/web-app/public/components/angular/angular.js',
       'src/web-app/public/components/angular-mocks/angular-mocks.js',
       'src/web-app/public/js/**/*.js',
-      'test/client/**/*.js'
+      'test/web-app/client/**/*.js'
     ],
 
     // list of files / patterns to exclude
@@ -40,11 +40,11 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS'], // can only use PhantomJS in travis.ci
 
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: true
   });
 };

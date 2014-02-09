@@ -1,7 +1,7 @@
 package models
 
 type Player struct {
-	Id int
+	Id string
 	Rank float64
 }
 
@@ -12,4 +12,8 @@ type PlayerScore struct {
 
 type AllPlayerScores struct {
 	PlayerScores []PlayerScore
+}
+
+type ServiceConfig struct {
+	Url string
 }
