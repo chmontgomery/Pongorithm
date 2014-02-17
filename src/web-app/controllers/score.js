@@ -5,6 +5,51 @@ var _ = require('lodash'),
     eloService = require('../services/EloService');
 
 /**
+ * @param {Object} scores
+ * @returns {Array}
+ * @private
+ */
+function _getPlayerScores(scores) {
+    var playerOneDefer = q.defer();
+    var playerTwoDefer = q.defer();
+
+    Player.findById(scores.playerOne.id, function (err, player) {
+        if (err) {
+            console.log('FAILED to get player', err);
+            playerOneDefer.reject(err);
+        } else {
+            playerOneDefer.resolve({
+                PlayerObj: {
+                    Id: player.id,
+                    Rank: player.rank
+                },
+                Score: scores.playerOne.score
+            });
+        }
+    });
+
+    Player.findById(scores.playerTwo.id, function (err, player) {
+        if (err) {
+            console.log('FAILED to get player', err);
+            playerTwoDefer.reject(err);
+        } else {
+            playerTwoDefer.resolve({
+                PlayerObj: {
+                    Id: player.id,
+                    Rank: player.rank
+                },
+                Score: scores.playerTwo.score
+            });
+        }
+    });
+
+    return [
+        playerOneDefer.promise,
+        playerTwoDefer.promise
+    ];
+}
+
+/**
  * @param {Object} playerOne
  * @param {Object} playerTwo
  * @returns {Object}
@@ -69,43 +114,7 @@ module.exports = function (server) {
 
         console.log('Saving new scores:', req.body.scores);
 
-        var playerOneDefer = q.defer();
-        var playerTwoDefer = q.defer();
-
-        Player.findById(req.body.scores.playerOne.id, function (err, player) {
-            if (err) {
-                console.log('FAILED to get player', err);
-                playerOneDefer.reject(err);
-            } else {
-                playerOneDefer.resolve({
-                    PlayerObj: {
-                        Id: player.id,
-                        Rank: player.rank
-                    },
-                    Score: req.body.scores.playerOne.score
-                });
-            }
-        });
-
-        Player.findById(req.body.scores.playerTwo.id, function (err, player) {
-            if (err) {
-                console.log('FAILED to get player', err);
-                playerTwoDefer.reject(err);
-            } else {
-                playerTwoDefer.resolve({
-                    PlayerObj: {
-                        Id: player.id,
-                        Rank: player.rank
-                    },
-                    Score: req.body.scores.playerTwo.score
-                });
-            }
-        });
-
-        q.allSettled([
-                playerOneDefer.promise,
-                playerTwoDefer.promise
-            ])
+        q.allSettled(_getPlayerScores(req.body.scores))
             .spread(_getNewRankings)
             .then(_saveNewRankings)
             .spread(function() {
