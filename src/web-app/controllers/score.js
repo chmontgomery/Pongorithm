@@ -2,7 +2,57 @@
 var _ = require('lodash'),
     q = require('q'),
     Player = require('../../../models/playerModel'),
-    EloService = require('../services/EloService');
+    eloService = require('../services/EloService');
+
+/**
+ * @param {Object} playerOne
+ * @param {Object} playerTwo
+ * @returns {Object}
+ * @private
+ */
+function _getNewRankings(playerOne, playerTwo) {
+    return eloService.getNewRanking({
+        PlayerScores: [
+            playerOne.value,
+            playerTwo.value
+        ]
+    });
+}
+
+/**
+ * @param {Array} result
+ * @returns {Array} promises from finding and saving players
+ * @private
+ */
+function _saveNewRankings(result) {
+    // expected response example:
+    // [{Id: "52e4bc5a4aeace0000d40f6b", Rank: 110},{Id: "52e4bc5a4aeace0000d40f6a",Rank: 90}]
+
+    var promises = [];
+
+    _.forEach(result, function(p) {
+        var deferred = q.defer();
+
+        Player.findById(p.Id, function(err, playerModel) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                playerModel.rank = p.Rank;
+                playerModel.save(function(saveErr) {
+                    if (saveErr) {
+                        deferred.reject(saveErr);
+                    } else {
+                        deferred.resolve();
+                    }
+                });
+            }
+        });
+
+        promises.push(deferred.promise);
+    });
+
+    return promises;
+}
 
 module.exports = function (server) {
 
@@ -56,42 +106,15 @@ module.exports = function (server) {
                 playerOneDefer.promise,
                 playerTwoDefer.promise
             ])
-            .spread(function(playerOne, playerTwo) {
-                return EloService.getNewRanking({
-                    PlayerScores: [
-                        playerOne.value,
-                        playerTwo.value
-                    ]
-                });
-            },function(error) {
+            .spread(_getNewRankings)
+            .then(_saveNewRankings)
+            .spread(function() {
+                res.statusCode = 200;
+                res.send('Successfully saved new scores');
+            }).fail(function(error) {
+                console.error(error);
                 res.statusCode = 400;
-                return res.send('Error 400: unknown error calculating new scores.');
-            }).then(function(result) {
-                // expected response example:
-                // [{Id: "52e4bc5a4aeace0000d40f6b", Rank: 110},{Id: "52e4bc5a4aeace0000d40f6a",Rank: 90}]
-
-                //TODO promises
-                _.forEach(result, function(p) {
-                    Player.findById(p.Id, function(err, playerModel) {
-                        if (err) {
-                            return new Error('Could not load Document');
-                        } else {
-                            // do your updates here
-                            playerModel.rank = p.Rank;
-
-                            playerModel.save(function(err) {
-                                if (err) {
-                                    console.log('error', err);
-                                } else {
-                                    console.log('success');
-                                }
-                            });
-                        }
-                    });
-                });
-
-                res.send('success!');
+                return res.send('Error 400: error saving scores');
             });
     });
-
 };

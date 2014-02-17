@@ -6,16 +6,16 @@ var _ = require('lodash'),
     fs = require('fs');
 
 function _getEloConfig() {
-  var deferred = q.defer();
-  fs.readFile('src/services/elo/src/config.json', 'utf8', function (err, data) {
-    if (err) {
-      console.error(err);
-      deferred.reject(err);
-    } else {
-      deferred.resolve(JSON.parse(data));
-    }
-  });
-  return deferred.promise;
+    var deferred = q.defer();
+    fs.readFile('src/services/elo/src/config.json', 'utf8', function (err, data) {
+        if (err) {
+            console.error(err);
+            deferred.reject(err);
+        } else {
+            deferred.resolve(JSON.parse(data));
+        }
+    });
+    return deferred.promise;
 }
 
 /**
@@ -41,30 +41,32 @@ function _getEloConfig() {
     }
  */
 module.exports.getNewRanking = function (data) {
-  var deferred = q.defer();
+    var deferred = q.defer();
 
-  _getEloConfig()
-      .then(function (config) {
+    _getEloConfig()
+        .then(function (config) {
 
-        var options = {
-          uri: 'http://' + config.url,
-          method: 'POST',
-          body: JSON.stringify(data),
-          contentType: 'application/json',
-          rejectUnauthorized: false
-        };
+            var options = {
+                uri: 'http://' + config.url,
+                method: 'POST',
+                body: JSON.stringify(data),
+                contentType: 'application/json',
+                rejectUnauthorized: false
+            };
 
-        request(options, function (err, rsp) {
-          if (err || rsp.statusCode !== 200) {
-            console.error(err);
+            request(options, function (err, rsp) {
+                if (err || !rsp || rsp.statusCode !== 200) {
+                    err = err || 'Error reaching elo service';
+                    console.error(err);
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(JSON.parse(rsp.body));
+                }
+            });
+
+        }, function (err) {
             deferred.reject(err);
-          }
-          deferred.resolve(JSON.parse(rsp.body));
         });
 
-      }, function (err) {
-        deferred.reject(err);
-      });
-
-  return deferred.promise;
+    return deferred.promise;
 };
