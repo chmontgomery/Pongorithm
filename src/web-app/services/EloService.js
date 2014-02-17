@@ -2,7 +2,21 @@
 var _ = require('lodash'),
     q = require('q'),
     Player = require('../../../models/playerModel'),
-    request = require('request');
+    request = require('request'),
+    fs = require('fs');
+
+function _getEloConfig() {
+  var deferred = q.defer();
+  fs.readFile('src/services/elo/src/config.json', 'utf8', function (err, data) {
+    if (err) {
+      console.error(err);
+      deferred.reject(err);
+    } else {
+      deferred.resolve(JSON.parse(data));
+    }
+  });
+  return deferred.promise;
+}
 
 /**
  * expect the following json obj
@@ -27,23 +41,30 @@ var _ = require('lodash'),
     }
  */
 module.exports.getNewRanking = function (data) {
-    var newRanksDefer = q.defer();
+  var deferred = q.defer();
 
-    var options = {
-        uri: 'http://localhost:9226', // TODO read from config
-        method: 'POST',
-        body: JSON.stringify(data),
-        contentType: 'application/json',
-        rejectUnauthorized: false
-    };
+  _getEloConfig()
+      .then(function (config) {
 
-    request(options, function (err, rsp) {
-        if (err || rsp.statusCode !== 200) {
+        var options = {
+          uri: 'http://' + config.url,
+          method: 'POST',
+          body: JSON.stringify(data),
+          contentType: 'application/json',
+          rejectUnauthorized: false
+        };
+
+        request(options, function (err, rsp) {
+          if (err || rsp.statusCode !== 200) {
             console.error(err);
-            newRanksDefer.reject(err);
-        }
-        newRanksDefer.resolve(JSON.parse(rsp.body));
-    });
+            deferred.reject(err);
+          }
+          deferred.resolve(JSON.parse(rsp.body));
+        });
 
-    return newRanksDefer.promise;
+      }, function (err) {
+        deferred.reject(err);
+      });
+
+  return deferred.promise;
 };
